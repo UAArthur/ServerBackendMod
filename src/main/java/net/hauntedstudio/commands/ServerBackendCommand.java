@@ -20,7 +20,7 @@ import static net.minecraft.server.command.CommandManager.literal;
 
 public class ServerBackendCommand {
 
-    private LanguageManager languageManager = AppBackend.languageManager;
+    private final LanguageManager languageManager = AppBackend.languageManager;
     private static String playerLang;
 
     public static void registerCommand() {
@@ -55,9 +55,9 @@ public class ServerBackendCommand {
         LiteralArgumentBuilder<ServerCommandSource> infoArgument = literal("Info")
                 .executes(context -> sendInfoRequest(context.getSource()));
 
-        // /SB Login
-        LiteralArgumentBuilder<ServerCommandSource> loginArgument = literal("Login")
-                .executes(context -> sendLoginRequest(context.getSource()));
+        // /SB QRCode
+        LiteralArgumentBuilder<ServerCommandSource> qrcodeArgument = literal("QRCode")
+                .executes(context -> sendQRCoderequest(context.getSource()));
 
         LiteralArgumentBuilder<ServerCommandSource> inviteArgument = literal("DCInvite")
                 .executes(context -> sendDCInviteRequest(context.getSource()));
@@ -66,7 +66,7 @@ public class ServerBackendCommand {
         // Add other subcommands to the main command
         literalArgumentBuilder.then(setupArgument);
         literalArgumentBuilder.then(infoArgument);
-        literalArgumentBuilder.then(loginArgument);
+        literalArgumentBuilder.then(qrcodeArgument);
         literalArgumentBuilder.then(inviteArgument);
 
         return literalArgumentBuilder;
@@ -117,7 +117,7 @@ public class ServerBackendCommand {
         return 1; // Return 1 for success, adjust as needed
     }
 
-    private static int sendLoginRequest(ServerCommandSource source) {
+    private static int sendQRCoderequest(ServerCommandSource source) {
         // Your logic for handling the /SB Login command
         return 1; // Return 1 for success, adjust as needed
     }

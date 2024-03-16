@@ -24,8 +24,7 @@ public class ServerPlayConnectionLeaveHandler implements ServerPlayConnectionEve
 
         try {
             // Execute the webhook
-//            webhook.execute();
-            System.out.println("Webhook sent successfully!");
+            webhook.execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
