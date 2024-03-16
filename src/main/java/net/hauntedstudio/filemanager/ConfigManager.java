@@ -28,6 +28,7 @@ public class ConfigManager {
             addOrUpdateConfig("discord-guild-id", "YOUR_DISCORD_GUILD_ID");
             addOrUpdateConfig("discord-channel-id", "YOUR_DISCORD_CHANNEL_ID");
             addOrUpdateConfig("discord-webhook-url", "YOUR_DISCORD_WEBHOOK_URL");
+            addOrUpdateConfig("discord-support-links", "false");
             isDefaultConfig = true;
         }
     }
