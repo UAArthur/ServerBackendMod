@@ -4,14 +4,12 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.hauntedstudio.AppBackend;
 import net.hauntedstudio.commands.LinkCommand;
-import net.hauntedstudio.filemanager.LinksManager;
+import net.hauntedstudio.manager.LinksManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;

@@ -3,17 +3,13 @@ package net.hauntedstudio.dcbot;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.hauntedstudio.dcbot.listener.ButtonInteractionListener;
 import net.hauntedstudio.dcbot.listener.MessageListener;
 import net.hauntedstudio.dcbot.slash.LinkCommand;
-import net.hauntedstudio.filemanager.ConfigManager;
+import net.hauntedstudio.manager.ConfigManager;
 import org.jetbrains.annotations.NotNull;
 
 public class Bot {

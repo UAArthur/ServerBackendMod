@@ -1,4 +1,4 @@
-package net.hauntedstudio.filemanager;
+package net.hauntedstudio.manager;
 
 import com.google.gson.*;
 

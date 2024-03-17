@@ -1,17 +1,15 @@
 package net.hauntedstudio.dcbot.listener;
-
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.fabricmc.fabric.api.message.v1.ServerMessageEvents;
 import net.hauntedstudio.AppBackend;
+import net.hauntedstudio.manager.AIManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.*;
-import net.minecraft.util.Formatting;
-
-import java.util.EventListener;
 import java.util.Objects;
 
 public class MessageListener extends ListenerAdapter {
+
+    private final AIManager aiManager = new AIManager(); // Instantiate AIManager
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
@@ -20,13 +18,21 @@ public class MessageListener extends ListenerAdapter {
             if (event.getAuthor().isBot()) return;
             String message = event.getMessage().getContentDisplay();
             MutableText text = Text.literal("§7[§aDiscord§7] " + event.getAuthor().getName() + "§f: " + message);
-            //check if text contains some kind of link
+            // Checks if Message is for AI
+            if (message.startsWith("@Shiroo")) {
+                aiManager.sendMessageToAI(null, event.getAuthor().getName(), message.replace("@Shiroo", ""));
+            }
+            // Check if text contains some kind of link
             if (AppBackend.configManager.getString("discord-support-links").equals("true") && (message.contains("https://") || message.contains("http://") || message.contains("www.") || message.contains(".com") || message.contains(".de"))) {
                 text.setStyle(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, message)));
             }
-            //Broadcast message
+            // Broadcast message
             AppBackend.server.getPlayerManager().broadcast(text, false);
         }
+    }
 
+    // Cleanup resources
+    public void shutdown() {
+        aiManager.shutdown(); // Shutdown AIManager
     }
 }

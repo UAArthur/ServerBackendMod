@@ -1,5 +1,7 @@
 package net.hauntedstudio;
 
+import club.minnced.discord.webhook.WebhookClient;
+import club.minnced.discord.webhook.WebhookClientBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -11,10 +13,11 @@ import net.hauntedstudio.dcbot.Bot;
 import net.hauntedstudio.event.MessageHandler;
 import net.hauntedstudio.event.ServerPlayConnectionJoinHandler;
 import net.hauntedstudio.event.ServerPlayConnectionLeaveHandler;
-import net.hauntedstudio.filemanager.ConfigManager;
-import net.hauntedstudio.filemanager.LanguageManager;
-import net.hauntedstudio.filemanager.LinksManager;
-import net.hauntedstudio.filemanager.PlayerSettingsManager;
+import net.hauntedstudio.manager.ConfigManager;
+import net.hauntedstudio.manager.LanguageManager;
+import net.hauntedstudio.manager.LinksManager;
+import net.hauntedstudio.manager.PlayerSettingsManager;
+import net.hauntedstudio.utils.DiscordWebhookSender;
 import net.minecraft.server.MinecraftServer;
 
 import java.io.File;
@@ -31,6 +34,8 @@ public class AppBackend implements ModInitializer {
     public static String botToken;
 
     public static Bot bot; //Saves DiscordBot instance
+    public static WebhookClient client; //Saves WebhookClient instance
+    public static DiscordWebhookSender webhookSender = new DiscordWebhookSender();
 
     @Override
     public void onInitialize() {
@@ -47,6 +52,16 @@ public class AppBackend implements ModInitializer {
         botToken = configManager.getString("discord-token");
 
         bot = new Bot(botToken);
+
+        WebhookClientBuilder builder = new WebhookClientBuilder(webhookURL); // or id, token
+        builder.setThreadFactory((job) -> {
+            Thread thread = new Thread(job);
+            thread.setName("Webhook-Thread");
+            thread.setDaemon(true);
+            return thread;
+        });
+        builder.setWait(true);
+        client = builder.build();
 
         //Check if the mod is running on the client or server
         if (net.fabricmc.loader.api.FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER) {

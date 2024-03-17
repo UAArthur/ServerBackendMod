@@ -5,19 +5,16 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.hauntedstudio.AppBackend;
-import net.hauntedstudio.filemanager.LanguageManager;
+import net.hauntedstudio.manager.LanguageManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Objects;
 
 import static net.minecraft.server.command.CommandManager.literal;
