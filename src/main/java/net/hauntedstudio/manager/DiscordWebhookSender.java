@@ -1,4 +1,4 @@
-package net.hauntedstudio.utils;
+package net.hauntedstudio.manager;
 
 import club.minnced.discord.webhook.send.WebhookEmbed;
 import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
@@ -7,7 +7,7 @@ import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import net.hauntedstudio.AppBackend;
 
 public class DiscordWebhookSender {
-    private final String LABYURL = "https://laby.net/texture/profile/head/%uuid%.png?size=64";
+    private static final String LABYURL = "https://laby.net/texture/profile/head/%uuid%.png?size=32";
 
     public void sendMessagetoWebhook(String message, String username, String uuid) {
         WebhookMessage bMessage = new WebhookMessageBuilder()

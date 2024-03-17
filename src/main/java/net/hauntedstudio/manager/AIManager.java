@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.ExecutorService;
@@ -36,7 +37,7 @@ public class AIManager {
                     String aiResponse = generateAIResponse(task.getMessage());
                     System.out.println(aiResponse);
                     AppBackend.webhookSender.sendMessagetoWebhook(aiResponse, "Shiroo [AI]", "48a7773acdac4014ac3faec0c1c2b4dd");
-                    AppBackend.server.getPlayerManager().broadcast(Text.literal("§d§l[AI] §7" + aiResponse), false);
+                    AppBackend.server.getPlayerManager().broadcast(Text.literal("§d§l[AI] §fShiroo: §7" + AppBackend.webhookSender.escapeSpecialCharacters(aiResponse)), false);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } finally {
@@ -67,33 +68,31 @@ public class AIManager {
         // Create JSON data to send
         String jsonData = "{ \"model\": \"neural-chat\", \"prompt\": \"" + message + "\", \"stream\": false }";
 
-        // Write JSON data to connection output stream
+        // Write JSON data to connection output stream with UTF-8 encoding
         try (DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream())) {
-            outputStream.writeBytes(jsonData);
+            outputStream.write(jsonData.getBytes(StandardCharsets.UTF_8));
             outputStream.flush();
         }
 
         // Get response code
         int responseCode = connection.getResponseCode();
 
-
-        // Read response
+        // Read response with UTF-8 encoding
         StringBuilder response = new StringBuilder();
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
                 response.append(inputLine);
             }
         }
 
-        // Parse JSON response using GSON
+        // Parse JSON response using GSON with UTF-8 encoding
         Gson gson = new Gson();
         JsonObject jsonResponse = gson.fromJson(response.toString(), JsonObject.class);
 
         // Extract "response" field
         return jsonResponse.get("response").getAsString();
     }
-
     // Cleanup resources
     public void shutdown() {
         executor.shutdown();
