@@ -22,6 +22,7 @@ public class AIManager {
     private boolean isProcessing = false;
 
     public void sendMessageToAI(String uuid, String username, String message) {
+        System.out.println("Message To AI: "+ message);
         messageQueue.offer(new MessageTask(uuid, username, message));
         processQueue();
     }
@@ -33,6 +34,7 @@ public class AIManager {
             executor.submit(() -> {
                 try {
                     String aiResponse = generateAIResponse(task.getMessage());
+                    System.out.println(aiResponse);
                     AppBackend.webhookSender.sendMessagetoWebhook(aiResponse, "Shiroo [AI]", "48a7773acdac4014ac3faec0c1c2b4dd");
                     AppBackend.server.getPlayerManager().broadcast(Text.literal("§d§l[AI] §7" + aiResponse), false);
                 } catch (IOException e) {

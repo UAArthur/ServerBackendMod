@@ -13,7 +13,6 @@ public class MessageListener extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        System.out.println("Message received from " + event.getAuthor().getName() + ": " + event.getMessage().getContentDisplay() + " in channel " + event.getChannel().getId());
         if (event.getChannel().getId().equals(AppBackend.configManager.getString("discord-channel-id"))) {
             if (event.getAuthor().isBot()) return;
             String message = event.getMessage().getContentDisplay();

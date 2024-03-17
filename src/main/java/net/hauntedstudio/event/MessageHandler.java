@@ -23,8 +23,8 @@ public class MessageHandler implements ServerMessageEvents.ChatMessage {
     public void onChatMessage(SignedMessage message, ServerPlayerEntity sender, MessageType.Parameters params) {
         if (message.getContent().getString().startsWith("/"))
             return;
-        if (message.getContent().getString().startsWith("@Shiroo") || message.getContent().getString().startsWith("@shiroo")) {
-            aiManager.sendMessageToAI(sender.getUuid().toString(), sender.getName().getString(), message.getContent().getString().replace("@Shiroo", ""));
+        if (message.getContent().getString().toLowerCase().startsWith("@shiroo")) {
+            aiManager.sendMessageToAI(sender.getUuid().toString(), sender.getName().getString(), message.getContent().getString().toLowerCase().replace("@shiroo", ""));
         }
         AppBackend.webhookSender.sendMessagetoWebhook(message.getContent().getString(), sender.getName().getString(), sender.getUuid().toString());
     }
