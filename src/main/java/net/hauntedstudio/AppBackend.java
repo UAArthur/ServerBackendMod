@@ -51,18 +51,19 @@ public class AppBackend implements ModInitializer {
             botToken = configManager.getString("discord-token");
 
             bot = new Bot(botToken);
+            if (ConfigManager.isDefaultConfig) {
+                WebhookClientBuilder builder = new WebhookClientBuilder(webhookURL);
+                builder.setThreadFactory((job) -> {
+                    Thread thread = new Thread(job);
+                    thread.setName("Webhook-Thread");
+                    thread.setDaemon(true);
+                    return thread;
+                });
+                builder.setWait(true);
+                client = builder.build();
+            }
 
-            WebhookClientBuilder builder = new WebhookClientBuilder(webhookURL);
-            builder.setThreadFactory((job) -> {
-                Thread thread = new Thread(job);
-                thread.setName("Webhook-Thread");
-                thread.setDaemon(true);
-                return thread;
-            });
-            builder.setWait(true);
-            client = builder.build();
-
-            System.out.println("Running on server!");
+        System.out.println("Running on server!");
             ServerLifecycleEvents.SERVER_STARTING.register(server1 -> {
                 server = server1;
             });
@@ -76,5 +77,7 @@ public class AppBackend implements ModInitializer {
             ServerPlayConnectionEvents.JOIN.register(new ServerPlayConnectionJoinHandler());
             ServerPlayConnectionEvents.DISCONNECT.register(new ServerPlayConnectionLeaveHandler());
     }
+
+
 
 }
